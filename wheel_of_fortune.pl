@@ -58,7 +58,7 @@ sub run_app {
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(10), 'Round');
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(20), 'Points');
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(30), 'Lives');
-    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(40), 'Time remaining');
+    #$label->write_xy($app, _x(8) - $char_W_w / 2, _y(40), 'Time remaining');
     
     _next_round();
     _draw_stats();
@@ -174,12 +174,12 @@ sub _draw_stats {
     $app->draw_rect([_x(8) - $char_W_w / 2, _y(15), _x(20), $label->h], 0x000000FF);
     $app->draw_rect([_x(8) - $char_W_w / 2, _y(25), _x(20), $label->h], 0x000000FF);
     $app->draw_rect([_x(8) - $char_W_w / 2, _y(35), _x(20), $label->h], 0x000000FF);
-    $app->draw_rect([_x(8) - $char_W_w / 2, _y(45), _x(20), $label->h], 0x000000FF);
+    #$app->draw_rect([_x(8) - $char_W_w / 2, _y(45), _x(20), $label->h], 0x000000FF);
     
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(15), $#quests_done + 1);
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(25), $points);
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(35), $lives);
-    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(45), $time_per_round);
+    #$label->write_xy($app, _x(8) - $char_W_w / 2, _y(45), $time_per_round);
 }
 
 sub _draw_chars {
