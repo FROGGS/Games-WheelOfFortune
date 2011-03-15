@@ -48,6 +48,7 @@ my @data                = <DATA>;
 my $card_text_color     = [255,255,255];
 my $question_text_color = [0,0,0];
 
+SDL::init(SDL_INIT_VIDEO);
 run_app();
 
 sub run_app {
@@ -80,13 +81,12 @@ sub run_app {
             my $time = Time::HiRes::time;
             if ($time - $last_click < 0.3) {
                 $app->stop;
-                SDL::quit;
                 $ENV{SDL_VIDEO_CENTERED} = $app->w == $screen_w ? undef : 'center';
                 $app = SDLx::App->new( width  => $app->w == $screen_w ? $screen_w * 0.8 : $screen_w,
                                        height => $app->h == $screen_h ? $screen_h * 0.8 : $screen_h,
                                        depth => 32, title => "Wheel Of Fortune", color => 0x000000FF,
                                        flags => SDL_HWSURFACE|SDL_DOUBLEBUF| ($app->w == $screen_w ? SDL_RESIZABLE : SDL_NOFRAME),
-                                       eoq => 1 );
+                                       init => 0, eoq => 1 );
                 run_app();
             }
             else {
