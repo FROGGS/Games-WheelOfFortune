@@ -25,7 +25,8 @@ my $screen_h             = $video_info->current_h;
 $ENV{SDL_VIDEO_CENTERED} = 'center';
 my $app                  = SDLx::App->new( width => $screen_w, height => $screen_h,
                                            depth => 32, title => "Wheel Of Fortune", color => 0x000000FF,
-                                           flags => SDL_SWSURFACE|SDL_DOUBLEBUF|SDL_NOFRAME, eoq => 1 );
+                                           flags => SDL_SWSURFACE|SDL_DOUBLEBUF|SDL_NOFRAME,
+                                           init => 0, eoq => 1 );
 my $last_click           = Time::HiRes::time;
 $Text::Wrap::columns     = 12;
 
@@ -48,7 +49,7 @@ my @data                = <DATA>;
 my $card_text_color     = [255,255,255];
 my $question_text_color = [0,0,0];
 
-SDL::init(SDL_INIT_VIDEO);
+_next_round();
 run_app();
 
 sub run_app {
@@ -63,7 +64,6 @@ sub run_app {
     $label->write_xy($app, _x(8) - $char_W_w / 2, _y(30), 'Lives');
     #$label->write_xy($app, _x(8) - $char_W_w / 2, _y(40), 'Time remaining');
     
-    _next_round();
     _draw_stats();
     _draw_chars();
     _draw_quest();
@@ -87,6 +87,11 @@ sub run_app {
                                        depth => 32, title => "Wheel Of Fortune", color => 0x000000FF,
                                        flags => SDL_HWSURFACE|SDL_DOUBLEBUF| ($app->w == $screen_w ? SDL_RESIZABLE : SDL_NOFRAME),
                                        init => 0, eoq => 1 );
+                #$app->surface(SDL::Video::set_video_mode($app->w == $screen_w ? $screen_w * 0.8 : $screen_w,
+                #                                         $app->h == $screen_h ? $screen_h * 0.8 : $screen_h,
+                #                                         32,
+                #                                         SDL_HWSURFACE|SDL_DOUBLEBUF| ($app->w == $screen_w ? SDL_RESIZABLE : SDL_NOFRAME)));
+                #$app->run;
                 run_app();
             }
             else {
@@ -124,11 +129,7 @@ sub run_app {
 
         # window resizing
         elsif ($e->type == SDL_VIDEORESIZE) {
-            $app->stop;
-            $app = SDLx::App->new( width => $e->resize_w, height => $e->resize_h,
-                                   depth => 32, title => "Wheel Of Fortune", color => 0x000000FF,
-                                   flags => SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_RESIZABLE,
-                                   init => 0, eoq => 1 );
+            $app->resize( $e->resize_w, $e->resize_h );
             run_app();
         }
     } );
@@ -143,7 +144,7 @@ sub _y {
     return ($app->h * shift) / 100;
 }
 
-sub _next_round()
+sub _next_round
 {
     if(scalar @quests_done) {
         $points += length($current_quest) * $points_per_char;
