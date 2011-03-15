@@ -127,7 +127,8 @@ sub run_app {
             $app->stop;
             $app = SDLx::App->new( width => $e->resize_w, height => $e->resize_h,
                                    depth => 32, title => "Wheel Of Fortune", color => 0x000000FF,
-                                   flags => SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_RESIZABLE, eoq => 1 );
+                                   flags => SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_RESIZABLE,
+                                   init => 0, eoq => 1 );
             run_app();
         }
     } );
