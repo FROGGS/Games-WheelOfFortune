@@ -130,7 +130,9 @@ sub run_app {
         # window resizing
         elsif ($e->type == SDL_VIDEORESIZE) {
             $app->resize( $e->resize_w, $e->resize_h );
-            run_app();
+            _draw_stats();
+            _draw_chars();
+            _draw_quest();
         }
     } );
     $app->run();
