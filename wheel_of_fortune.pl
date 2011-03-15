@@ -40,17 +40,19 @@ my $current_quest   = '';
 my $chosen_chars    = '';
 my @quests_done     = ();
 
-my $label;                # SDLx::Text object for labels
-my $char;                 # SDLx::Text object for quest and alphabet
-my $char_W_w;             # width in pixels of char 'W'
-my @controls        = (); # list of controls
-my @data            = <DATA>;
+my $label;                         # SDLx::Text object for labels
+my $char;                          # SDLx::Text object for quest and alphabet
+my $char_W_w;                      # width in pixels of char 'W'
+my @controls            = ();      # list of controls
+my @data                = <DATA>;
+my $card_text_color     = [255,255,255];
+my $question_text_color = [0,0,0];
 
 run_app();
 
 sub run_app {
     $label    = SDLx::Text->new( color => [ 255, 255, 255 ], size => sqrt($app->w * $app->h) / 30, h_align => 'left' );
-    $char     = SDLx::Text->new( color => [ 255, 255, 255 ], size => sqrt($app->w * $app->h) / 15, h_align => 'center', text => 'W');
+    $char     = SDLx::Text->new( color => $card_text_color, size => sqrt($app->w * $app->h) / 15, h_align => 'center', text => 'W');
     $char_W_w = $char->w;
     @controls = ();
 
@@ -224,7 +226,7 @@ sub _draw_quest {
     if($#lines < 3) {
         unshift(@lines, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
-    
+    $char->color($question_text_color);
     for(0..11) {
         my $x = _x(29 + $_ * 5.72);
         for my $line (0..3) {
@@ -235,6 +237,7 @@ sub _draw_quest {
             }
         }
     }
+    $char->color($card_text_color);
 }
 
 __DATA__
