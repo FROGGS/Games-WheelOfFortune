@@ -58,12 +58,7 @@ sub run_app {
     $char_W_w = $char->w;
     @controls = ();
 
-    # drawing labels
-    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(10), 'Round');
-    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(20), 'Points');
-    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(30), 'Lives');
-    #$label->write_xy($app, _x(8) - $char_W_w / 2, _y(40), 'Time remaining');
-    
+    _draw_labels();
     _draw_stats();
     _draw_chars();
     _draw_quest();
@@ -92,6 +87,10 @@ sub run_app {
                 #                                         32,
                 #                                         SDL_HWSURFACE|SDL_DOUBLEBUF| ($app->w == $screen_w ? SDL_RESIZABLE : SDL_NOFRAME)));
                 #$app->run;
+                #_draw_labels();
+                #_draw_stats();
+                #_draw_chars();
+                #_draw_quest();
                 run_app();
             }
             else {
@@ -130,6 +129,7 @@ sub run_app {
         # window resizing
         elsif ($e->type == SDL_VIDEORESIZE) {
             $app->resize( $e->resize_w, $e->resize_h );
+            _draw_labels();
             _draw_stats();
             _draw_chars();
             _draw_quest();
@@ -173,6 +173,12 @@ sub _next_round
     $current_quest = uc($current_quest);
     $chosen_chars  = '';
     push(@quests_done, $index);
+}
+
+sub _draw_labels {
+    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(10), 'Round');
+    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(20), 'Points');
+    $label->write_xy($app, _x(8) - $char_W_w / 2, _y(30), 'Lives');
 }
 
 sub _draw_stats {
