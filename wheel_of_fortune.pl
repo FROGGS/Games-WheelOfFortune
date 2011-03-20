@@ -204,7 +204,12 @@ sub _draw_chars {
             $char->write_xy($app, $x, $y, $c);
             
             if($chosen_chars =~ /\Q$c\E/) {
-                $app->draw_rect([$x - $char_W_w / 2, $y, $char_W_w, $char->h], 0x000000CC);
+                # workaround for missing draw_rect_blended
+                my $alpha = SDLx::Surface->new(width => $char_W_w, height => $char->h, depth => 32);
+                $alpha->draw_rect(undef, 0x000000CC);
+                $alpha->blit($app, undef, [$x - $char_W_w / 2, $y, 0, 0]);
+                
+                #$app->draw_rect_blended([$x - $char_W_w / 2, $y, $char_W_w, $char->h], 0x000000CC);
             }
 
             push(@controls, [$x - $char_W_w / 2, $y,
